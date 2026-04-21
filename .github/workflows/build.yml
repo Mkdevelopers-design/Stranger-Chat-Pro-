@@ -1,0 +1,41 @@
+name: Make APK
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+          with:
+          node-version: '20'
+
+      - name: Install Native Engine
+        run: |
+          mkdir app_code
+          rsync -a --exclude='app_code' --exclude='.git' --exclude='.github' . app_code/
+          npm init -y
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npx cap add android
+          npx cap sync android
+
+      - name: Build APK (Packing)
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Give me the APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Stranger-Chat-Pro-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk

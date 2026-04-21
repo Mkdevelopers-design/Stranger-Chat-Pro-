@@ -1,0 +1,6 @@
+{
+  "appId": "com.mkdev.strangerchat",
+  "appName": "Stranger Chat Pro",
+  "webDir": "app_code",
+  "bundledWebRuntime": false
+}
