@@ -12,7 +12,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '17'
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -24,7 +24,7 @@ jobs:
           mkdir app_code
           rsync -a --exclude='app_code' --exclude='.git' --exclude='.github' . app_code/
           npm init -y
-          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npm install @capacitor/core@5 @capacitor/cli@5 @capacitor/android@5
           npx cap add android
           npx cap sync android
 
